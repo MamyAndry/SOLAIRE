@@ -9,10 +9,11 @@ import dao.GenericDao;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Date;
-import java.sql.Time;
+import solaire.entity.BesoinSecteur;
 import solaire.entity.Details;
 import solaire.entity.SourceSolaire;
 import solaire.etat.EtatSolaire;
+import solaire.etat.Predict;
 
 /**
  *
@@ -32,20 +33,20 @@ public class Main {
             EtatSolaire etat = new EtatSolaire(source);
             Date date = Date.valueOf("2023-11-27");
             
-            int[] pointage = source.getSecteur(con).getPointageSecteur(con, date);
-            EtatSolaire etat2 = source.getEtatSolaire(con, 10, date,  49.3, pointage);
-            for ( Details details : etat2.getDetails()) {
-                System.out.println(
-                        "reserve batterie = " + details.getReserveBatterie()
-                        + " puissance delivree = " + details.getPuissanceDelivree()
-                        + " puissance delivree batterie = " + details.getPuissanceDelivreeBatterie()
-                        + " besoin = " + details.getBesoin()
-                        + " heure = " + details.getHeure()
-                        + " etat = " + details.getEtat()
-                );
-            System.out.println("----------------------------------------------------------------------------");
-            }
-            System.out.println("heure coupure = " + etat2.getHeureCoupure().toString());
+//            int[] pointage = source.getSecteur(con).getPointageSecteur(con, date);
+//            EtatSolaire etat2 = source.getEtatSolaire(con, 10, date,  49.3, pointage);
+//            for ( Details details : etat2.getDetails()) {
+//                System.out.println(
+//                        "reserve batterie = " + details.getReserveBatterie()
+//                        + " puissance delivree = " + details.getPuissanceDelivree()
+//                        + " puissance delivree batterie = " + details.getPuissanceDelivreeBatterie()
+//                        + " besoin = " + details.getBesoin()
+//                        + " heure = " + details.getHeure()
+//                        + " etat = " + details.getEtat()
+//                );
+//            System.out.println("----------------------------------------------------------------------------");
+//            }
+//            System.out.println("heure coupure = " + etat2.getHeureCoupure().toString());
 
 //            Time time = Time.valueOf("15:00:00");
 //            EtatSolaire besoin= etat.getEtatSolaireMoyenne(con, date, time);
@@ -64,13 +65,12 @@ public class Main {
 //            System.out.println("heure coupure = " + besoin.getHeureCoupure().toString());
 //            System.out.println("besoin moyenne = " + besoin.getBesoin().getPuissanceMoyenne());
 //            
-//            BesoinSecteur besSecteur = new BesoinSecteur();
-//            Predict predict = new Predict(Date.valueOf("2023-12-04"));
-//            predict.predict(con);
-//            System.out.println(predict.getEtat().length);
-//            for (EtatSolaire state : predict.getEtat()) {
-//                System.out.println(state.getHeureCoupure());
-//            }
+            BesoinSecteur besSecteur = new BesoinSecteur();
+            Predict predict = new Predict(Date.valueOf("2023-12-04"));
+            predict.predict(con, 1);
+            for (EtatSolaire state : predict.getEtat()) {
+                System.out.println(state.getHeureCoupure());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

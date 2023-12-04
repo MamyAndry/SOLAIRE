@@ -93,7 +93,7 @@ public class EtatSolaire {
             int pas = checkTime(time);
             while(temp.compareTo(time) != 0 || temp.after(time)){
                 needs += 0.1;
-                etat = this.getSource().getEtatSolaire(con, 10, date, needs, pointage);
+                etat = this.getSource().getEtatSolaire(con, pas, date, needs, pointage);
                 temp = etat.getHeureCoupure();
             }
             return etat;

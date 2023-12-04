@@ -3,6 +3,7 @@ package solaire.entity;
 import annotation.PrimaryKey;
 import annotation.Column;
 import annotation.Table;
+import dao.GenericDao;
 import java.sql.Date;
 import java.sql.Connection;
 import java.sql.Statement;
