@@ -5,15 +5,14 @@
 package testsolaire;
 
 import dao.DbConnection;
-import dao.GenericDao;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Date;
-import solaire.entity.BesoinSecteur;
-import solaire.entity.Details;
+import java.util.List;
+import solaire.entity.Salle;
+import solaire.entity.Secteur;
 import solaire.entity.SourceSolaire;
 import solaire.etat.EtatSolaire;
-import solaire.etat.Predict;
 
 /**
  *
@@ -29,13 +28,15 @@ public class Main {
         Connection con = null;
         try {
            con = DbConnection.connect();
-            SourceSolaire source = GenericDao.findById(con, "SRC00001", new SourceSolaire());
+            SourceSolaire source = new SourceSolaire();
+            source.setIdSource("SRC00001");
+            source = source.findById(con);
             EtatSolaire etat = new EtatSolaire(source);
             Date date = Date.valueOf("2023-11-27");
             
 //            int[] pointage = source.getSecteur(con).getPointageSecteur(con, date);
 //            EtatSolaire etat2 = source.getEtatSolaire(con, 10, date,  49.3, pointage);
-//            for ( Details details : etat2.getDetails()) {
+//            for ( Details details : etat2.getDetails()) { 
 //                System.out.println(
 //                        "reserve batterie = " + details.getReserveBatterie()
 //                        + " puissance delivree = " + details.getPuissanceDelivree()
@@ -64,13 +65,18 @@ public class Main {
 //            }
 //            System.out.println("heure coupure = " + besoin.getHeureCoupure().toString());
 //            System.out.println("besoin moyenne = " + besoin.getBesoin().getPuissanceMoyenne());
-//            
-            BesoinSecteur besSecteur = new BesoinSecteur();
-            Predict predict = new Predict(Date.valueOf("2023-12-04"));
-            predict.predict(con, 1);
-            for (EtatSolaire state : predict.getEtat()) {
-                System.out.println(state.getHeureCoupure());
-            }
+            
+//            BesoinSecteur besSecteur = new BesoinSecteur();
+//            Predict predict = new Predict(Date.valueOf("2023-12-04"));
+//            predict.predict(con, 1);
+//            for (EtatSolaire state : predict.getEtat()) {
+//                System.out.println(state.getHeureCoupure());
+//            }
+
+            Secteur sect = new Secteur();
+            sect.setIdSecteur("SECT0001");
+            List<Salle> listSalle = sect.getSalleFromSecteur(con);
+            System.out.println(listSalle.get(0).getNom());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

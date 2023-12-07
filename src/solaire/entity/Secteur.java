@@ -15,9 +15,8 @@ import solaire.utils.DateTimeUtility;
 
 
 @Table(name = "secteur")
-public class Secteur extends BddObject<Secteur>{
-    @PrimaryKey(sequence = "seq_secteur", prefix = "SECT")
-    @Column(name = "id_secteur")
+public class Secteur extends BddObject{
+    @PrimaryKey(name = "id_secteur", sequence = "seq_secteur", prefix = "SECT")
     String idSecteur;
     @Column(name = "nom")
     String nom;
@@ -39,8 +38,8 @@ public class Secteur extends BddObject<Secteur>{
 
     //CONSTRUCTORS
 
-    public Secteur(){}
-    public Secteur(String idSecteur, String nom){
+    public Secteur() throws Exception{}
+    public Secteur(String idSecteur, String nom) throws Exception{
         setIdSecteur(idSecteur);
         setNom(nom);
     }
@@ -48,16 +47,16 @@ public class Secteur extends BddObject<Secteur>{
     public Double getMaxCapaciteSecteur(Connection con) throws Exception{
         Double res = 0.0;
         String condition = "id_secteur = '" + this.getIdSecteur() + "'";
-        List<Batiment> listBatiment = GenericDao.findWhere(con, condition, new Batiment());
-        for (Batiment batiment : listBatiment) {
+        List<Salle> listBatiment = GenericDao.findWhere(con, condition, new Salle());
+        for (Salle batiment : listBatiment) {
             res += batiment.getCapaciteMax();
         }
         return res; 
     }
-    public List<Batiment> getBatimentsFromSecteur(Connection con) throws Exception{
-        Batiment bat = new Batiment();
-        bat.setIdSecteur(this.getIdSecteur());
-        return GenericDao.findWhere(con, bat);
+    public List<Salle> getSalleFromSecteur(Connection con) throws Exception{
+        Salle salle = new Salle();
+        salle.setIdSecteur(this.getIdSecteur());
+        return salle.findWhere(con);
     }
      
     public int[] getPointageSecteur(Connection con, Date date) throws Exception{

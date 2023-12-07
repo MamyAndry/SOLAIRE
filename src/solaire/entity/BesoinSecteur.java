@@ -3,18 +3,19 @@ package solaire.entity;
 import annotation.PrimaryKey;
 import annotation.Column;
 import annotation.Table;
-import dao.GenericDao;
+import dao.BddObject;
 import java.sql.Date;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import solaire.utils.DateTimeUtility;
 
 
 @Table(name = "besoin_secteur")
-public class BesoinSecteur{
+public class BesoinSecteur extends BddObject{
     
     @PrimaryKey(autoIncrement = true)
     @Column(name = "id_besoin")
@@ -71,8 +72,8 @@ public class BesoinSecteur{
 
 //CONSTRUCTORS
 
-    public BesoinSecteur(){}
-    public BesoinSecteur(Integer nombrePersonneMatin, Integer nombrePersonneApresMidi, String idSecteur, Double puissanceMoyenne, Date daty, Integer idBesoin){
+    public BesoinSecteur() throws Exception{}
+    public BesoinSecteur(Integer nombrePersonneMatin, Integer nombrePersonneApresMidi, String idSecteur, Double puissanceMoyenne, Date daty, Integer idBesoin) throws Exception{
         setNombrePersonneMatin(nombrePersonneMatin);
         setNombrePersonneApresMidi(nombrePersonneApresMidi);
         setIdSecteur(idSecteur);
@@ -80,7 +81,7 @@ public class BesoinSecteur{
         setDaty(daty);
         setIdBesoin(idBesoin);
     }
-    public BesoinSecteur(Integer nombrePersonneMatin, Integer nombrePersonneApresMidi, String idSecteur, Double puissanceMoyenne, Date daty){
+    public BesoinSecteur(Integer nombrePersonneMatin, Integer nombrePersonneApresMidi, String idSecteur, Double puissanceMoyenne, Date daty) throws Exception{
         setNombrePersonneMatin(nombrePersonneMatin);
         setNombrePersonneApresMidi(nombrePersonneApresMidi);
         setIdSecteur(idSecteur);
@@ -89,20 +90,32 @@ public class BesoinSecteur{
     }
     
 //METHODS
-    public List<BesoinSecteur> getBesoinSecteurMoyenne(Connection con, Date date) throws Exception {
+    public HashMap<String, Double> getBesoinMoyenne(Connection con) throws Exception{
+        HashMap<String, Double> res = new HashMap<>();
+        String query = "SELECT id_secteur, AVG(puissance_moyenne) besoin FROM besoin_secteur GROUP BY id_secteur ORDER BY id_secteur";
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        while(rs.next()){
+            res.put(rs.getString(1), rs.getDouble(2));
+        }
+        return res;
+    }
+    public List<BesoinSecteur> getBesoinSecteurMoyenneParSecteur(Connection con, Date date) throws Exception {
         List<BesoinSecteur> res = new ArrayList<>();
+        HashMap<String, Double> needs = this.getBesoinMoyenne(con);
         int dow = DateTimeUtility.getDayNumberOld(date) - 1;
-        String query = "SELECT AVG(nombre_personne_matin) nombre_matin, AVG(nombre_personne_apres_midi) nombre_apres_midi, AVG(puissance_moyenne) besoin, id_secteur "
+        String query = "SELECT AVG(nombre_personne_matin) nombre_matin, AVG(nombre_personne_apres_midi) nombre_apres_midi, id_secteur "
             + "FROM Besoin_secteur WHERE EXTRACT(DOW FROM daty) = " 
             + dow + " GROUP BY id_secteur ORDER BY id_secteur";
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery(query);
+        
         while(rs.next()){
             BesoinSecteur temp = new BesoinSecteur();
-            temp.setNombrePersonneMatin(rs.getInt("nombre_matin"));
-            temp.setNombrePersonneApresMidi(rs.getInt("nombre_apres_midi"));
-            temp.setIdSecteur(rs.getString("id_secteur"));
-            temp.setPuissanceMoyenne(rs.getDouble("besoin"));
+            temp.setNombrePersonneMatin(rs.getInt(1));
+            temp.setNombrePersonneApresMidi(rs.getInt(2));
+            temp.setIdSecteur(rs.getString(3));
+            temp.setPuissanceMoyenne(needs.get(temp.getIdSecteur()));
             res.add(temp);
         }
         return res;

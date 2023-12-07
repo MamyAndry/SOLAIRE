@@ -11,6 +11,8 @@ import solaire.entity.Details;
 import java.sql.Time;
 import java.sql.Date;
 import java.time.LocalTime;
+import java.util.List;
+import solaire.entity.Meteo;
 import solaire.entity.SourceSolaire;
 
 /**
@@ -89,11 +91,12 @@ public class EtatSolaire {
             Double needs = 1.0;
             Time temp = Time.valueOf("08:00:00");
             EtatSolaire etat = null;
+            List<Meteo> meteo = new Meteo().getMeteoDu(con, date);
             int[] pointage = this.getSource().getSecteur(con).getPointageSecteur(con, date);
             int pas = checkTime(time);
             while(temp.compareTo(time) != 0 || temp.after(time)){
                 needs += 0.1;
-                etat = this.getSource().getEtatSolaire(con, pas, date, needs, pointage);
+                etat = this.getSource().getEtatSolaire(meteo, pas, date, needs, pointage);
                 temp = etat.getHeureCoupure();
             }
             return etat;

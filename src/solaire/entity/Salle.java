@@ -3,14 +3,14 @@ package solaire.entity;
 import annotation.Column;
 import annotation.PrimaryKey;
 import annotation.Table;
+import dao.BddObject;
 
 
-@Table(name = "batiment")
-public class Batiment{
+@Table(name = "salle")
+public class Salle extends BddObject{
     
-    @PrimaryKey(sequence = "seq_batiment", prefix = "BAT")
-    @Column(name = "id_batiment")
-    String idBatiment;
+    @PrimaryKey(name = "id_salle", sequence = "seq_batiment", prefix = "SAL")
+    String idSalle;
     @Column(name = "capacite_max")
     Integer capaciteMax;
     @Column(name = "id_secteur")
@@ -32,11 +32,11 @@ public class Batiment{
     public void setIdSecteur(String idSecteur){
         this.idSecteur = idSecteur;
     }
-    public String getIdBatiment(){
-        return this.idBatiment;
+    public String getIdSalle(){
+        return this.idSalle;
     }
-    public void setIdBatiment(String idBatiment){
-        this.idBatiment = idBatiment;
+    public void setIdSalle(String idBatiment){
+        this.idSalle = idBatiment;
     }
     public String getNom(){
         return this.nom;
@@ -47,11 +47,11 @@ public class Batiment{
 
     //CONSTRUCTORS
 
-    public Batiment(){}
-    public Batiment(Integer capaciteMax, String idSecteur, String idBatiment, String nom){
+    public Salle() throws Exception{}
+    public Salle(Integer capaciteMax, String idSecteur, String idSalle, String nom) throws Exception{
         setCapaciteMax(capaciteMax);
         setIdSecteur(idSecteur);
-        setIdBatiment(idBatiment);
+        setIdSalle(idSalle);
         setNom(nom);
     }
 

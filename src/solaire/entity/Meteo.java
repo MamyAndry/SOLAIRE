@@ -3,6 +3,7 @@ package solaire.entity;
 import annotation.Column;
 import annotation.PrimaryKey;
 import annotation.Table;
+import dao.BddObject;
 import dao.GenericDao;
 import java.sql.Date;
 import java.sql.Time;
@@ -11,9 +12,8 @@ import java.util.List;
 
 
 @Table(name = "meteo")
-public class Meteo{
+public class Meteo extends BddObject{
     @PrimaryKey(autoIncrement = true)
-    @Column(name = "id")
     Integer id;
     @Column(name = "luminosite")
     Double luminosite;
@@ -59,8 +59,8 @@ public class Meteo{
 
     //CONSTRUCTORS
 
-    public Meteo(){}
-    public Meteo(Double luminosite, Time heureFin, Integer id, Date dateMeteo, Time heureDebut){
+    public Meteo() throws Exception{}
+    public Meteo(Double luminosite, Time heureFin, Integer id, Date dateMeteo, Time heureDebut) throws Exception{
         setLuminosite(luminosite);
         setHeureFin(heureFin);
         setId(id);
@@ -71,7 +71,9 @@ public class Meteo{
     //METHODS 
     public List<Meteo> getMeteoDu(Connection con, Date date)throws Exception{
         String condition = "date_meteo = '" + date.toString() + "' ORDER BY heure_debut,id";
-        return GenericDao.findWhere(con, condition, new Meteo());
+        List<Meteo> lst =  new Meteo().findWhere(con, condition);
+        if(lst.isEmpty())throw new Exception("Pas de donnee meteo pour cette date");
+        return lst;
     }
 
 }

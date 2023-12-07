@@ -3,14 +3,14 @@ package solaire.entity;
 import annotation.PrimaryKey;
 import annotation.Column;
 import annotation.Table;
+import dao.BddObject;
 import java.sql.Date;
 import java.sql.Time;
 
 
 @Table(name = "pointage")
-public class Pointage{
+public class Pointage extends BddObject{
         @PrimaryKey(autoIncrement = true)
-	@Column(name = "id")
 	Integer id;
 	@Column(name = "heure_fin")
 	Time heureFin;
@@ -64,8 +64,8 @@ public class Pointage{
 
     //CONSTRUCTORS
 
-	public Pointage(){}
-	public Pointage(Time heureFin, String idBatiment, Integer id, Date daty, Time heureDebut, Integer nombrePersonne){
+	public Pointage() throws Exception{}
+	public Pointage(Time heureFin, String idBatiment, Integer id, Date daty, Time heureDebut, Integer nombrePersonne) throws Exception{
 		setHeureFin(heureFin);
 		setIdBatiment(idBatiment);
 		setId(id);

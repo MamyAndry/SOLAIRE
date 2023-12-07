@@ -3,7 +3,7 @@ package solaire.entity;
 import annotation.PrimaryKey;
 import annotation.Column;
 import annotation.Table;
-import dao.GenericDao;
+import dao.BddObject;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.Time;
@@ -13,10 +13,9 @@ import solaire.utils.DateTimeUtility;
 
 
 @Table(name = "source_solaire")
-public class SourceSolaire{
+public class SourceSolaire extends BddObject{
     
-    @PrimaryKey(sequence = "seq_source", prefix = "SRC")
-    @Column(name = "id_source")
+    @PrimaryKey(name = "id_source", sequence = "seq_source", prefix = "SRC")
     String idSource;
     @Column(name = "id_secteur")
     String idSecteur;
@@ -53,8 +52,8 @@ public class SourceSolaire{
     }
 
     //CONSTRUCTORS
-    public SourceSolaire(){}
-    public SourceSolaire(String idSecteur, Double reserveMaxBatterie, String idSource, Double puissanceMax){
+    public SourceSolaire() throws Exception{}
+    public SourceSolaire(String idSecteur, Double reserveMaxBatterie, String idSource, Double puissanceMax) throws Exception{
         setIdSecteur(idSecteur);
         setReserveMaxBatterie(reserveMaxBatterie);
         setIdSource(idSource);
@@ -93,14 +92,10 @@ public class SourceSolaire{
     
     
     
-    public EtatSolaire getEtatSolaire(Connection con, int pas, Date date, Double besoinMoyenne, int[] pointage) throws Exception{
-        List<Meteo> meteo = new Meteo().getMeteoDu(con, date);
-        
+    public EtatSolaire getEtatSolaire(List<Meteo> meteo,  int pas, Date date, Double besoinMoyenne, int[] pointage) throws Exception{
         double duration = ((60 / pas) / 60.0);
         
         double reserveBatterie = this.getReserveMaxBatterie();
-        
-        if(meteo.isEmpty())throw new Exception("Pas de donnee meteo pour cette date");
         
         Details[] details = new Details[(meteo.size() * pas)];
         
@@ -111,7 +106,7 @@ public class SourceSolaire{
         Time end = Time.valueOf("17:00:00");
         Time time = Time.valueOf("08:00:00");
         Time coupure = end;
-        String etat = "LUMIERE";
+        int etat = 1;
         
         Double puissanceDelivreeBatterie = this.getPuissanceDelivreeBatterieMomentT(meteo, time, pas, besoin);
         
@@ -119,18 +114,17 @@ public class SourceSolaire{
         
         for(int i = 1; i < details.length; i++){
             time = DateTimeUtility.addMinutes(time, (60 / pas));
-            if(time.after(end)) break;
             if(time.after(Time.valueOf("12:00:00"))){
                 besoin = besoinMoyenne * pointage[1] * duration;
             }
             if(this.checkPourcentageBatterie(reserveBatterie)){
                 puissanceDelivreeBatterie = 0.0;
-                etat = "COUPURE";
+                etat = 0;
             }
             reserveBatterie -= puissanceDelivreeBatterie;
             details[i] = new Details(this.getIdSecteur(), time, etat, besoin, puissanceDelivreeBatterie, date, reserveBatterie, this.getPuissanceDelivreeMomentT(meteo, time, pas));
 
-            if(details[i].getEtat().equals("COUPURE") && details[i-1].getEtat().equals("LUMIERE")){
+            if(details[i].getEtat() == 0 && details[i-1].getEtat() == 1){
                 coupure = details[i].getHeure();
             }   
         }

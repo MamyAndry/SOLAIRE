@@ -3,13 +3,13 @@ INSERT INTO secteur VALUES
     ('SECT0002', 'Secteur 2'),
     ('SECT0003', 'Secteur 3');
 
-INSERT INTO batiment VALUES   
-    ('BAT00001', 'Amphi A', 150, 'SECT0001'),
-    ('BAT00002', 'Amphi B', 150, 'SECT0001'),
-    ('BAT00003', 'Salle 1', 150, 'SECT0002'),
-    ('BAT00004', 'Salle 2', 150, 'SECT0002'),
-    ('BAT00006', 'Grande Salle', 310, 'SECT0002'),
-    ('BAT00007', 'Administration', 50, 'SECT0002');
+INSERT INTO salle VALUES   
+    ('SAL00001', 'Amphi A', 150, 'SECT0001'),
+    ('SAL00002', 'Amphi B', 150, 'SECT0001'),
+    ('SAL00003', 'Salle 1', 150, 'SECT0002'),
+    ('SAL00004', 'Salle 2', 150, 'SECT0002'),
+    ('SAL00006', 'Grande Salle', 310, 'SECT0002'),
+    ('SAL00007', 'Administration', 50, 'SECT0002');
 
 INSERT INTO Source_solaire VALUES
     ('SRC00001', 15000, 40000, 'SECT0001'),
@@ -40,8 +40,8 @@ INSERT INTO meteo(id, date_meteo, heure_debut, heure_fin, luminosite) VALUES
         (default, '2023-12-04', '17:00:00', '17:59:59', 2);
 
 INSERT INTO pointage VALUES
-    (default, 'BAT00001', '2023-11-27', '08:00:00', '11:59:00', 100),
-    (default, 'BAT00001', '2023-11-27', '12:00:00', '17:00:00', 70),
-    (default, 'BAT00002', '2023-11-27', '08:00:00', '11:59:00', 120),
-    (default, 'BAT00002', '2023-11-27', '12:00:00', '17:00:00', 50);
+    (default, 'SAL00001', '2023-11-27', '08:00:00', '11:59:00', 100),
+    (default, 'SAL00001', '2023-11-27', '12:00:00', '17:00:00', 70),
+    (default, 'SAL00002', '2023-11-27', '08:00:00', '11:59:00', 120),
+    (default, 'SAL00002', '2023-11-27', '12:00:00', '17:00:00', 50);
 

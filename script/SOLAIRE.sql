@@ -1,6 +1,6 @@
 CREATE SEQUENCE seq_source START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE seq_secteur START WITH 1 INCREMENT BY 1;
-CREATE SEQUENCE seq_batiment START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE seq_salle START WITH 1 INCREMENT BY 1;
 
 CREATE TABLE meteo(
    id SERIAL,
@@ -27,12 +27,12 @@ CREATE TABLE Source_solaire(
    FOREIGN KEY(id_secteur) REFERENCES Secteur(id_secteur)
 );
 
-CREATE TABLE batiment(
-   id_batiment VARCHAR(50) ,
+CREATE TABLE salle(
+   id_salle VARCHAR(50) ,
    nom VARCHAR(50)  NOT NULL,
    capacite_max INTEGER NOT NULL,
    id_secteur VARCHAR(50)  NOT NULL,
-   PRIMARY KEY(id_batiment),
+   PRIMARY KEY(id_salle),
    FOREIGN KEY(id_secteur) REFERENCES Secteur(id_secteur)
 );
 
@@ -64,7 +64,7 @@ CREATE TABLE besoin_secteur(
 
 CREATE TABLE pointage(
    id SERIAL,
-   id_batiment VARCHAR REFERENCES batiment(id_batiment),
+   id_salle VARCHAR REFERENCES salle(id_salle),
    daty DATE,
    heure_debut TIME,
    heure_fin TIME,

@@ -3,12 +3,13 @@ package solaire.entity;
 import annotation.PrimaryKey;
 import annotation.Column;
 import annotation.Table;
+import dao.BddObject;
 import java.sql.Time;
 import java.sql.Date;
 
 
 @Table(name = "details")
-public class Details{
+public class Details extends BddObject{
     
     @PrimaryKey(autoIncrement = true)
     @Column(name = "id")
@@ -28,7 +29,7 @@ public class Details{
     @Column(name = "puissance_delivree")
     Double puissanceDelivree;
     @Column
-    String etat;
+    Integer etat;
 
     //SETTERS AND GETTERS
         
@@ -81,19 +82,19 @@ public class Details{
         this.puissanceDelivree = puissanceDelivree;
     }
 
-    public String getEtat() {
+    public Integer getEtat() {
         return etat;
     }
 
-    public void setEtat(String etat) {
+    public void setEtat(Integer etat) {
         this.etat = etat;
     }
     
 
     //CONSTRUCTORS
 
-    public Details(){}
-    public Details(String secteur, Time heure, Double besoin, Double puissanceDelivreeBatterie, Date dateDetails, Double reserveBatterie, Integer id, Double puissanceDelivree){
+    public Details()throws Exception{}
+    public Details(String secteur, Time heure, Double besoin, Double puissanceDelivreeBatterie, Date dateDetails, Double reserveBatterie, Integer id, Double puissanceDelivree) throws Exception{
         setSecteur(secteur);
         setHeure(heure);
         setBesoin(besoin);
@@ -103,7 +104,7 @@ public class Details{
         setId(id);
         setPuissanceDelivree(puissanceDelivree);
     }
-    public Details(String secteur, Time heure, String etat, Double besoin, Double puissanceDelivreeBatterie, Date dateDetails, Double reserveBatterie, Double puissanceDelivree){
+    public Details(String secteur, Time heure, Integer etat, Double besoin, Double puissanceDelivreeBatterie, Date dateDetails, Double reserveBatterie, Double puissanceDelivree)  throws Exception{
         setSecteur(secteur);
         setHeure(heure);
         setBesoin(besoin);
