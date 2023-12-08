@@ -9,9 +9,7 @@ import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Date;
-import java.sql.Time;
 import java.util.List;
-import solaire.utils.DateTimeUtility;
 
 
 @Table(name = "secteur")

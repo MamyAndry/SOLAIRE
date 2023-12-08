@@ -15,10 +15,9 @@ import solaire.utils.DateTimeUtility;
 
 
 @Table(name = "besoin_secteur")
-public class BesoinSecteur extends BddObject{
+public class BesoinSecteur{
     
-    @PrimaryKey(autoIncrement = true)
-    @Column(name = "id_besoin")
+    @PrimaryKey(name = "id_besoin", autoIncrement = true)
     Integer idBesoin;
     @Column(name = "nombre_personne_matin")
     Integer nombrePersonneMatin;

@@ -4,7 +4,6 @@ import annotation.Column;
 import annotation.PrimaryKey;
 import annotation.Table;
 import dao.BddObject;
-import dao.GenericDao;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Connection;

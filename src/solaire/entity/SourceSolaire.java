@@ -4,9 +4,11 @@ import annotation.PrimaryKey;
 import annotation.Column;
 import annotation.Table;
 import dao.BddObject;
+import dao.DbConnection;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.List;
 import solaire.etat.EtatSolaire;
 import solaire.utils.DateTimeUtility;
@@ -79,7 +81,7 @@ public class SourceSolaire extends BddObject{
     }
     
     public boolean checkPourcentageBatterie( double reserveBatterie){
-        return reserveBatterie < this.getLimiteBatterie();
+        return reserveBatterie <= this.getLimiteBatterie();
     }
     
     public Double getPuissanceDelivreeBatterieMomentT(List<Meteo> lstMeteo, Time time, int pas, Double besoin) throws Exception{
@@ -97,9 +99,7 @@ public class SourceSolaire extends BddObject{
         
         double reserveBatterie = this.getReserveMaxBatterie();
         
-        Details[] details = new Details[(meteo.size() * pas)];
-        
-        if(pas > 1) details = new Details[(meteo.size() * pas) - ( pas-1)];
+        Details[] details = new Details[(meteo.size() * pas) - ( pas - 1)];
         
         Double besoin = besoinMoyenne * pointage[0] * duration;
         
@@ -132,5 +132,36 @@ public class SourceSolaire extends BddObject{
         BesoinSecteur  besoinSecteur = new BesoinSecteur(pointage[0], pointage[1], this.getIdSecteur(), besoinMoyenne, date);
         
         return new EtatSolaire(details, besoinSecteur, coupure);
-    }   
+    } 
+    
+    public int checkTime(Time time){
+        LocalTime local = time.toLocalTime();
+        if(local.getMinute() != 0)
+            return 60 / local.getMinute();
+        return 1;
+    }
+    
+    public EtatSolaire getEtatSolaireMoyenne(Connection con, Date date, Time time) throws Exception{
+        boolean state = false;
+        try {
+            if(con == null){
+                con = DbConnection.connect();
+                state = true;
+            }
+            Double needs = 1.0;
+            Time temp = Time.valueOf("08:00:00");
+            EtatSolaire etat = null;
+            List<Meteo> meteo = new Meteo().getMeteoDu(con, date);
+            int[] pointage = this.getSecteur(con).getPointageSecteur(con, date);
+            while(temp.compareTo(time) != 0 || temp.after(time)){
+                needs += 0.1;
+//                System.out.println(needs);
+                etat = this.getEtatSolaire(meteo, 60, date, needs, pointage);
+                temp = etat.getHeureCoupure();
+            }
+            return etat;
+        } finally {
+            if(state == true)con.close();
+        }
+    }
 }

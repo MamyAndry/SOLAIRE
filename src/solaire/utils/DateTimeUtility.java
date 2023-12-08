@@ -19,36 +19,36 @@ public class DateTimeUtility {
         return cal.get(Calendar.DAY_OF_WEEK);
     }
     
-    public static String getDayOfWeek(Date date){
-        int dayNumber = getDayNumberOld(date);
-        String res = "";
-        switch (dayNumber) {
-            case 1 -> {
-                res = "SUNDAY";
-            }
-            case 2 -> {
-                res = "MONDAY";
-            }
-            case 3 -> {
-                res = "TUESDAY";
-            }
-            case 4 -> {
-                res = "WEDNESDAY";
-            }
-            case 5 -> {
-                res = "THURSDAY";
-            }
-            case 6 -> {
-                res = "FRIDAY";
-            }
-            case 7 -> {
-                res = "SATURDAY ";
-            }
-            default -> {
-            }
-        }
-        return res;
-    }
+//    public static String getDayOfWeek(Date date){
+//        int dayNumber = getDayNumberOld(date);
+//        String res = "";
+//        switch (dayNumber) {
+//            case 1 -> {
+//                res = "SUNDAY";
+//            }
+//            case 2 -> {
+//                res = "MONDAY";
+//            }
+//            case 3 -> {
+//                res = "TUESDAY";
+//            }
+//            case 4 -> {
+//                res = "WEDNESDAY";
+//            }
+//            case 5 -> {
+//                res = "THURSDAY";
+//            }
+//            case 6 -> {
+//                res = "FRIDAY";
+//            }
+//            case 7 -> {
+//                res = "SATURDAY ";
+//            }
+//            default -> {
+//            }
+//        }
+//        return res;
+//    }
     
     public static boolean isTimeBeetween(Time toCompare, Time start, Time end){
         return toCompare.after(start) && toCompare.before(end) || toCompare.compareTo(start) == 0 || toCompare.compareTo(end) == 0;

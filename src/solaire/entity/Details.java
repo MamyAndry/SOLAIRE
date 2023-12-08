@@ -9,7 +9,7 @@ import java.sql.Date;
 
 
 @Table(name = "details")
-public class Details extends BddObject{
+public class Details{
     
     @PrimaryKey(autoIncrement = true)
     @Column(name = "id")

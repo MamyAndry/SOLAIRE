@@ -4,16 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/E:/ITU/L3/Mr_Tahina/SOLAIRE/src/solaire/utils/DateTimeUtility.java</file>
-            <file>file:/E:/ITU/L3/Mr_Tahina/SOLAIRE/src/solaire/utils/AggregationUtility.java</file>
-            <file>file:/E:/ITU/L3/Mr_Tahina/SOLAIRE/src/solaire/entity/Secteur.java</file>
-            <file>file:/E:/ITU/L3/Mr_Tahina/SOLAIRE/src/solaire/entity/SourceSolaire.java</file>
             <file>file:/E:/ITU/L3/Mr_Tahina/SOLAIRE/src/testsolaire/Main.java</file>
+            <file>file:/E:/ITU/L3/Mr_Tahina/SOLAIRE/src/solaire/entity/SourceSolaire.java</file>
             <file>file:/E:/ITU/L3/Mr_Tahina/SOLAIRE/src/solaire/entity/Meteo.java</file>
-            <file>file:/E:/ITU/L3/Mr_Tahina/SOLAIRE/src/solaire/entity/Details.java</file>
-            <file>file:/E:/ITU/L3/Mr_Tahina/SOLAIRE/src/solaire/etat/EtatSolaire.java</file>
-            <file>file:/E:/ITU/L3/Mr_Tahina/SOLAIRE/src/solaire/entity/Pointage.java</file>
-            <file>file:/E:/ITU/L3/Mr_Tahina/SOLAIRE/src/solaire/etat/Predict.java</file>
             <file>file:/E:/ITU/L3/Mr_Tahina/SOLAIRE/src/solaire/entity/BesoinSecteur.java</file>
+            <file>file:/E:/ITU/L3/Mr_Tahina/SOLAIRE/src/solaire/entity/Salle.java</file>
         </group>
     </open-files>
 </project-private>

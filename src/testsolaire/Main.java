@@ -5,14 +5,14 @@
 package testsolaire;
 
 import dao.DbConnection;
+import dao.GenericDao;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.util.List;
-import solaire.entity.Salle;
+import solaire.entity.Meteo;
 import solaire.entity.Secteur;
 import solaire.entity.SourceSolaire;
-import solaire.etat.EtatSolaire;
 
 /**
  *
@@ -28,14 +28,16 @@ public class Main {
         Connection con = null;
         try {
            con = DbConnection.connect();
-            SourceSolaire source = new SourceSolaire();
-            source.setIdSource("SRC00001");
-            source = source.findById(con);
-            EtatSolaire etat = new EtatSolaire(source);
-            Date date = Date.valueOf("2023-11-27");
+//            SourceSolaire source = new SourceSolaire();
+//            source.setIdSource("SRC00001");
+//            source = source.findById(con);
+//            EtatSolaire etat = new EtatSolaire(source);
+//            Date date = Date.valueOf("2023-11-27");
             
+
+//            List<Meteo> meteo = new Meteo().getMeteoDu(con, date);
 //            int[] pointage = source.getSecteur(con).getPointageSecteur(con, date);
-//            EtatSolaire etat2 = source.getEtatSolaire(con, 10, date,  49.3, pointage);
+//            EtatSolaire etat2 = source.getEtatSolaire(meteo, 2, date,  49.3, pointage);
 //            for ( Details details : etat2.getDetails()) { 
 //                System.out.println(
 //                        "reserve batterie = " + details.getReserveBatterie()
@@ -49,9 +51,9 @@ public class Main {
 //            }
 //            System.out.println("heure coupure = " + etat2.getHeureCoupure().toString());
 
-//            Time time = Time.valueOf("15:00:00");
-//            EtatSolaire besoin= etat.getEtatSolaireMoyenne(con, date, time);
-////            GenericDao.save(con, besoin.getBesoin());
+//            Time time = Time.valueOf("15:07:00");
+//            EtatSolaire besoin= source.getEtatSolaireMoyenne(con, date, time);
+//            GenericDao.save(con, besoin.getBesoin());
 //            for ( Details details : besoin.getDetails()) {
 //                System.out.println(
 //                        "reserve batterie = " + details.getReserveBatterie()
@@ -73,10 +75,12 @@ public class Main {
 //                System.out.println(state.getHeureCoupure());
 //            }
 
-            Secteur sect = new Secteur();
-            sect.setIdSecteur("SECT0001");
-            List<Salle> listSalle = sect.getSalleFromSecteur(con);
-            System.out.println(listSalle.get(0).getNom());
+//            Secteur sect = new Secteur();
+//            sect.setIdSecteur("SECT0001");
+//            List<Salle> listSalle = GenericDao.findAll(con, new Salle());
+//            System.out.println(listSalle.get(0).getNom());
+            List<Meteo> listMeteo = GenericDao.findAll(con, new Meteo());
+            System.out.println(listMeteo.get(0).getLuminosite());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
