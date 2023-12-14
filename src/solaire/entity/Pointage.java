@@ -10,8 +10,8 @@ import java.sql.Time;
 
 @Table(name = "pointage")
 public class Pointage extends BddObject{
-        @PrimaryKey(autoIncrement = true)
-	Integer id;
+        @PrimaryKey(prefix = "POIN", sequence = "seq_pointage")
+	String id;
 	@Column(name = "heure_fin")
 	Time heureFin;
 	@Column(name = "id_batiment")
@@ -37,10 +37,10 @@ public class Pointage extends BddObject{
 	public void setIdBatiment(String idBatiment){
             this.idBatiment = idBatiment;
 	}
-	public Integer getId(){
+	public String getId(){
             return this.id;
 	}
-	public void setId(Integer id){
+	public void setId(String id){
             this.id = id;
 	}
 	public Date getDaty(){
@@ -65,7 +65,7 @@ public class Pointage extends BddObject{
     //CONSTRUCTORS
 
 	public Pointage() throws Exception{}
-	public Pointage(Time heureFin, String idBatiment, Integer id, Date daty, Time heureDebut, Integer nombrePersonne) throws Exception{
+	public Pointage(Time heureFin, String idBatiment, String id, Date daty, Time heureDebut, Integer nombrePersonne) throws Exception{
 		setHeureFin(heureFin);
 		setIdBatiment(idBatiment);
 		setId(id);

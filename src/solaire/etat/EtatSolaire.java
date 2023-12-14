@@ -4,16 +4,9 @@
  */
 package solaire.etat;
 
-import java.sql.Connection;
-import dao.DbConnection;
 import solaire.entity.BesoinSecteur;
 import solaire.entity.Details;
 import java.sql.Time;
-import java.sql.Date;
-import java.time.LocalTime;
-import java.util.List;
-import solaire.entity.Meteo;
-import solaire.entity.SourceSolaire;
 
 /**
  *
@@ -22,7 +15,7 @@ import solaire.entity.SourceSolaire;
 public class EtatSolaire {
     Details[] details;
     BesoinSecteur besoin;
-    Time heureCoupure;
+//    Time heureCoupure;
 //    SourceSolaire source;
 
     //GETTERS & SETTERS
@@ -42,13 +35,13 @@ public class EtatSolaire {
         this.besoin = besoin;
     }
 
-    public Time getHeureCoupure() {
-        return heureCoupure;
-    }
-
-    public void setHeureCoupure(Time coupure) {
-        this.heureCoupure = coupure;
-    }
+//    public Time getHeureCoupure() {
+//        return heureCoupure;
+//    }
+//
+//    public void setHeureCoupure(Time coupure) {
+//        this.heureCoupure = coupure;
+//    }
 
 //    public SourceSolaire getSource() {
 //        return source;
@@ -67,11 +60,11 @@ public class EtatSolaire {
         this.setDetails(details);
         this.setBesoin(besoin);
     }
-    public EtatSolaire(Details[] details, BesoinSecteur besoin, Time coupure) {
-        this.setDetails(details);
-        this.setBesoin(besoin);
-        this.setHeureCoupure(coupure);
-    }
+//    public EtatSolaire(Details[] details, BesoinSecteur besoin) {
+//        this.setDetails(details);
+//        this.setBesoin(besoin);
+//        this.setHeureCoupure(coupure);
+//    }
     
     //METHODS
 

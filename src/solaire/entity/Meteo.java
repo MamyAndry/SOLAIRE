@@ -12,8 +12,8 @@ import java.util.List;
 
 @Table(name = "meteo")
 public class Meteo extends BddObject{
-    @PrimaryKey(autoIncrement = true)
-    Integer id;
+    @PrimaryKey(prefix = "MET", sequence = "seq_meteo")
+    String id;
     @Column(name = "luminosite")
     Double luminosite;
     @Column(name = "heure_fin")
@@ -37,10 +37,10 @@ public class Meteo extends BddObject{
     public void setHeureFin(Time heureFin){
         this.heureFin = heureFin;
     }
-    public Integer getId(){
+    public String getId(){
         return this.id;
     }
-    public void setId(Integer id){
+    public void setId(String id){
         this.id = id;
     }
     public Date getDateMeteo(){
@@ -59,7 +59,7 @@ public class Meteo extends BddObject{
     //CONSTRUCTORS
 
     public Meteo() throws Exception{}
-    public Meteo(Double luminosite, Time heureFin, Integer id, Date dateMeteo, Time heureDebut) throws Exception{
+    public Meteo(Double luminosite, Time heureFin, String id, Date dateMeteo, Time heureDebut) throws Exception{
         setLuminosite(luminosite);
         setHeureFin(heureFin);
         setId(id);
@@ -70,6 +70,7 @@ public class Meteo extends BddObject{
     //METHODS 
     public List<Meteo> getMeteoDu(Connection con, Date date)throws Exception{
         String condition = "date_meteo = '" + date.toString() + "' ORDER BY heure_debut,id";
+//        System.out.println(condition);
         List<Meteo> lst =  new Meteo().findWhere(con, condition);
         if(lst.isEmpty())throw new Exception("Pas de donnee meteo pour cette date");
         return lst;

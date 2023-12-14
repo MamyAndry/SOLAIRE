@@ -3,8 +3,8 @@ package solaire.entity;
 import annotation.PrimaryKey;
 import annotation.Column;
 import annotation.Table;
-import dao.BddObject;
 import java.sql.Date;
+import java.sql.Time;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.ResultSet;
@@ -29,7 +29,8 @@ public class BesoinSecteur{
     Double puissanceMoyenne;
     @Column(name = "daty")
     Date daty;
-
+    @Column(name = "heure_coupure")
+    Time heureCoupure;
     //SETTERS AND GETTERS
         
     public Integer getNombrePersonneMatin(){
@@ -69,6 +70,15 @@ public class BesoinSecteur{
         this.idBesoin = idBesoin;
     }
 
+    public Time getHeureCoupure() {
+        return heureCoupure;
+    }
+
+    public void setHeureCoupure(Time heureCoupure) {
+        this.heureCoupure = heureCoupure;
+    }
+    
+
 //CONSTRUCTORS
 
     public BesoinSecteur() throws Exception{}
@@ -86,6 +96,14 @@ public class BesoinSecteur{
         setIdSecteur(idSecteur);
         setPuissanceMoyenne(puissanceMoyenne);
         setDaty(daty);
+    }
+    public BesoinSecteur(Integer nombrePersonneMatin, Integer nombrePersonneApresMidi, String idSecteur, Double puissanceMoyenne, Date daty, Time coupure) throws Exception{
+        setNombrePersonneMatin(nombrePersonneMatin);
+        setNombrePersonneApresMidi(nombrePersonneApresMidi);
+        setIdSecteur(idSecteur);
+        setPuissanceMoyenne(puissanceMoyenne);
+        setDaty(daty);
+        setHeureCoupure(coupure);
     }
     
 //METHODS
@@ -114,6 +132,27 @@ public class BesoinSecteur{
             temp.setNombrePersonneMatin(rs.getInt(1));
             temp.setNombrePersonneApresMidi(rs.getInt(2));
             temp.setIdSecteur(rs.getString(3));
+            temp.setPuissanceMoyenne(needs.get(temp.getIdSecteur()));
+            res.add(temp);
+        }
+        return res;
+    }
+    
+    public List<BesoinSecteur> getBesoinSecteurMoyenneParSecteur2(Connection con, Date date) throws Exception {
+        List<BesoinSecteur> res = new ArrayList<>();
+        HashMap<String, Double> needs = this.getBesoinMoyenne(con);
+        int dow = DateTimeUtility.getDayNumberOld(date) - 1;
+        String query = "SELECT (AVG(nombre_personne_matin) + AVG(nombre_personne_apres_midi)) / 2 nombre_, id_secteur "
+            + "FROM Besoin_secteur WHERE EXTRACT(DOW FROM daty) = " 
+            + dow + " GROUP BY id_secteur ORDER BY id_secteur";
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        
+        while(rs.next()){
+            BesoinSecteur temp = new BesoinSecteur();
+            temp.setNombrePersonneMatin(rs.getInt(1));
+            temp.setNombrePersonneApresMidi(rs.getInt(1));
+            temp.setIdSecteur(rs.getString(2));
             temp.setPuissanceMoyenne(needs.get(temp.getIdSecteur()));
             res.add(temp);
         }

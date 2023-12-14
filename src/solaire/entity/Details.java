@@ -30,6 +30,7 @@ public class Details{
     Double puissanceDelivree;
     @Column
     Integer etat;
+    double luminosite;
 
     //SETTERS AND GETTERS
         
@@ -89,12 +90,26 @@ public class Details{
     public void setEtat(Integer etat) {
         this.etat = etat;
     }
+
+    public double getLuminosite() {
+        return luminosite;
+    }
+
+    public void setLuminosite(double luminosite) {
+        this.luminosite = luminosite;
+    }
     
+    
+    public String getEtatString(){
+        if(this.getEtat() == 0)
+            return "COUPURE";
+        return "LUMIERE";
+    }
 
     //CONSTRUCTORS
 
     public Details()throws Exception{}
-    public Details(String secteur, Time heure, Double besoin, Double puissanceDelivreeBatterie, Date dateDetails, Double reserveBatterie, Integer id, Double puissanceDelivree) throws Exception{
+    public Details(String secteur, Time heure, Double besoin, Double puissanceDelivreeBatterie, Date dateDetails, Double reserveBatterie, Integer id, Double puissanceDelivree){
         setSecteur(secteur);
         setHeure(heure);
         setBesoin(besoin);
@@ -104,7 +119,18 @@ public class Details{
         setId(id);
         setPuissanceDelivree(puissanceDelivree);
     }
-    public Details(String secteur, Time heure, Integer etat, Double besoin, Double puissanceDelivreeBatterie, Date dateDetails, Double reserveBatterie, Double puissanceDelivree)  throws Exception{
+    public Details(String secteur, Time heure, Integer etat, Double besoin, Double puissanceDelivreeBatterie, Date dateDetails, Double reserveBatterie, Double puissanceDelivree, double luminosite){
+        setSecteur(secteur);
+        setHeure(heure);
+        setBesoin(besoin);
+        setPuissanceDelivreeBatterie(puissanceDelivreeBatterie);
+        setDateDetails(dateDetails);
+        setReserveBatterie(reserveBatterie);
+        setPuissanceDelivree(puissanceDelivree);
+        setEtat(etat);
+        setLuminosite(luminosite);
+    }
+    public Details(String secteur, Time heure, Integer etat, Double besoin, Double puissanceDelivreeBatterie, Date dateDetails, Double reserveBatterie, Double puissanceDelivree){
         setSecteur(secteur);
         setHeure(heure);
         setBesoin(besoin);

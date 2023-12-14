@@ -1,9 +1,12 @@
 CREATE SEQUENCE seq_source START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE seq_secteur START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE seq_salle START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE seq_meteo START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE seq_coupure START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE seq_pointage START WITH 1 INCREMENT BY 1;
 
 CREATE TABLE meteo(
-   id SERIAL,
+   id VARCHAR(50),
    date_meteo DATE,
    heure_debut TIME,
    heure_fin TIME,
@@ -14,6 +17,7 @@ CREATE TABLE meteo(
 CREATE TABLE Secteur(
    id_secteur VARCHAR(50) ,
    nom VARCHAR(50)  NOT NULL,
+   -- id_solaire VARCHAR(50) REFERENCES Source_solaire(id_source),   
    PRIMARY KEY(id_secteur)
 );
 
@@ -55,6 +59,7 @@ ALTER TABLE details ADD COLUMN etat VARCHAR(50);
 CREATE TABLE besoin_secteur(
    id_besoin SERIAL,
    daty DATE,
+   heure_coupure TIME,
    nombre_personne_matin INTEGER,
    nombre_personne_apres_midi INTEGER,
    puissance_moyenne DOUBLE PRECISION,
@@ -63,7 +68,7 @@ CREATE TABLE besoin_secteur(
 );
 
 CREATE TABLE pointage(
-   id SERIAL,
+   id VARCHAR(50) PRIMARY KEY,
    id_salle VARCHAR REFERENCES salle(id_salle),
    daty DATE,
    heure_debut TIME,
@@ -71,16 +76,23 @@ CREATE TABLE pointage(
    nombre_personne INT
 );
 
-CREATE FUNCTION f_get_day_of_week(daty DATE)
-   RETURNS VARCHAR(50)
-   LANGUAGE  plpgsql
-   AS $$
-   DECLARE
-      day_name VARCHAR(50);
-   BEGIN
-      SELECT TO_CHAR(DATE daty, 'DAY');
-      RETURN day_name;
-   END;
-   $$ ;
+CREATE TABLE coupure(
+   id VARCHAR(50) PRIMARY KEY,
+   date_jour DATE,
+   id_secteur VARCHAR(50) REFERENCES secteur(id_secteur),
+   heure TIME
+);
+
+-- CREATE FUNCTION f_get_day_of_week(daty DATE)
+--    RETURNS VARCHAR(50)
+--    LANGUAGE  plpgsql
+--    AS $$
+--    DECLARE
+--       day_name VARCHAR(50);
+--    BEGIN
+--       SELECT TO_CHAR(DATE daty, 'DAY');
+--       RETURN day_name;
+--    END;
+-- $$ ;
 
 SELECT * FROM besoin_secteur WHERE 

@@ -18,7 +18,9 @@ public class Secteur extends BddObject{
     String idSecteur;
     @Column(name = "nom")
     String nom;
-
+//    @Column(name = "id_source")
+//    String source;
+    
     //SETTERS AND GETTERS
         
     public String getIdSecteur(){
@@ -34,10 +36,18 @@ public class Secteur extends BddObject{
         this.nom = nom;
     }
 
+//    public String getSource() {
+//        return source;
+//    }
+//
+//    public void setSource(String source) {
+//        this.source = source;
+//    }
+
     //CONSTRUCTORS
 
-    public Secteur() throws Exception{}
-    public Secteur(String idSecteur, String nom) throws Exception{
+    public Secteur(){}
+    public Secteur(String idSecteur, String nom){
         setIdSecteur(idSecteur);
         setNom(nom);
     }
