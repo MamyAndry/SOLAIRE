@@ -112,11 +112,11 @@ public class SourceSolaire extends BddObject{
     
     
     
-    public EtatSolaire getEtatSolaire(List<Meteo> meteo, int pas, Date date, Double besoinMoyenne, int[] pointage) throws Exception{
+    public EtatSolaire getEtatSolaire(List<Meteo> meteo, int pas, Date date, Double besoinMoyenne, List<Integer> pointage) throws Exception{
         double duration = (60 / pas) / 60.0;
         double reserveBatterie = this.getReserveMaxBatterie();
         Details[] details = new Details[(meteo.size() * pas) - (pas)];
-        Double besoin = besoinMoyenne * pointage[0] * duration; 
+        Double besoin = besoinMoyenne * pointage.get(0) * duration; 
         Time end = Time.valueOf("18:00:00");
         Time time = Time.valueOf("08:00:00");
         Time coupure = end;
@@ -128,12 +128,10 @@ public class SourceSolaire extends BddObject{
         for(int i = 1; i < details.length; i++){
             time = DateTimeUtility.addMinutes(time, (60 / pas));
             genere = this.getPuissanceDelivreeMomentT(meteo, time, pas);
-//            if(time.after(Time.valueOf("11:59:00")) && time.before(Time.valueOf("13:00:00")))
-//                time = Time.valueOf("13:00:00");
-            if(time.after(Time.valueOf("12:00:00")) && time.before(Time.valueOf("14:00:00")))
+            if(time.after(Time.valueOf("11:59:00")) && time.before(Time.valueOf("14:00:00")))
                 time = Time.valueOf("14:00:00");
-            if(time.after(Time.valueOf("12:01:00"))){
-                besoin = besoinMoyenne * pointage[1] * duration;
+            if(time.after(Time.valueOf("12:00:00"))){
+                besoin = besoinMoyenne * pointage.get(1) * duration;
             }
             puissanceDelivreeBatterie = this.getPuissanceDelivreeBatterieMomentT(genere, besoin);
             if(this.checkPourcentageBatterie(reserveBatterie)){
@@ -148,7 +146,7 @@ public class SourceSolaire extends BddObject{
                 coupure = details[i].getHeure();
             }   
         }       
-        BesoinSecteur  besoinSecteur = new BesoinSecteur(pointage[0], pointage[1], this.getIdSecteur(), besoinMoyenne, date, coupure);
+        BesoinSecteur  besoinSecteur = new BesoinSecteur(pointage.get(0), pointage.get(1), this.getIdSecteur(), besoinMoyenne, date, coupure);
         return new EtatSolaire(details, besoinSecteur);
     } 
     
@@ -190,7 +188,7 @@ public class SourceSolaire extends BddObject{
             Time temp = Time.valueOf("08:00:00");
             EtatSolaire etat = null;
             List<Meteo> meteo = new Meteo().getMeteoDu(con, date);
-            int[] pointage = this.getSecteur(con).getPointageSecteur(con, date);
+            List<Integer> pointage = this.getSecteur(con).getPointageSecteur(con, date);
             double needs = 60;
             while(temp.compareTo(time) != 0){
                 etat = this.getEtatSolaire(meteo, 60, date, needs, pointage);
@@ -216,7 +214,7 @@ public class SourceSolaire extends BddObject{
             Time temp = Time.valueOf("08:00:00");
             EtatSolaire etat = null;
             List<Meteo> meteo = new Meteo().getMeteoDu(con, date);
-            int[] pointage = this.getSecteur(con).getPointageSecteur(con, date);
+            List<Integer> pointage = this.getSecteur(con).getPointageSecteur(con, date);
             double low = 0.0;
             double high = this.getPuissanceMax();
             double mid = 0.0;

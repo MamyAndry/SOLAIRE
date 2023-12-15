@@ -8,11 +8,12 @@ import dao.DbConnection;
 import dao.GenericDao;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Date;
 import java.util.List;
 import solaire.entity.Coupure;
+import solaire.entity.Secteur;
 import solaire.entity.SourceSolaire;
 import solaire.etat.EtatSolaire;
-import utils.ObjectUtility;
 
 /**
  *
@@ -32,7 +33,7 @@ public class Main {
 //            source.setIdSource("SRC00001");
 //            source = source.findById(con);
 //            EtatSolaire etat = new EtatSolaire();
-//            Date date = Date.valueOf("2023-11-2");
+            Date date = Date.valueOf("2023-12-13");
 
 //            List<Meteo> meteo = new Meteo().getMeteoDu(con, date);
 //            int[] pointage = source.getSecteur(con).getPointageSecteur(con, date);
@@ -77,19 +78,19 @@ public class Main {
 //            
 //            
 //            EtatSolaire etat = src1.getEtatSolaireMoyenne(con, lstCoupure1.get(0).getDateJour(), lstCoupure1.get(0).getHeure());
-            for (Coupure coupure : lstCoupure1) {
-                EtatSolaire etat1 = src1.getEtatSolaireMoyenne(con, coupure.getDateJour(), coupure.getHeure());
+//            for (Coupure coupure : lstCoupure1) {
+//                EtatSolaire etat1 = src1.getEtatSolaireMoyenne(con, coupure.getDateJour(), coupure.getHeure());
 //                System.out.println(
 //                        "besoin moyenne = " + etat1.getBesoin().getPuissanceMoyenne()
 //                        + " date = " + etat1.getBesoin().getDaty()
 //                        + " heure = " + etat1.getBesoin().getHeureCoupure()
 //                );
 //                System.out.println(ObjectUtility.formatNumber(etat1.getBesoin().getPuissanceMoyenne(), 2, "."));
-                GenericDao.save(con, etat1.getBesoin());
-                System.out.println("Saved succesfully");
+//                GenericDao.save(con, etat1.getBesoin());
+//                System.out.println("Saved succesfully");
 //                System.out.println("----------------------------------------------------------------------------------");
-            } 
-            System.out.println("SECTEUR 1 FINISHED");
+//            } 
+//            System.out.println("SECTEUR 1 FINISHED");
 //            for (Coupure coupure2 : lstCoupure2) {
 //                EtatSolaire etat2 = src2.getEtatSolaireMoyenne(con, coupure2.getDateJour(), coupure2.getHeure());
 ////                System.out.println(etat2.getBesoin().getPuissanceMoyenne());
@@ -108,6 +109,7 @@ public class Main {
 
 //            Secteur sect = new Secteur();
 //            sect.setIdSecteur("SEC001");
+//            System.out.println(sect.getPointageMoyenParSecteur(con , date));
 //            sect = sect.findById(con);
 //            int[] pointage = sect.getPointageSecteur(con, date);
 //            System.out.println(pointage[0] + " " + pointage[1]);

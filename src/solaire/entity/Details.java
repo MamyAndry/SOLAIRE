@@ -105,6 +105,11 @@ public class Details{
             return "COUPURE";
         return "LUMIERE";
     }
+    public String getEtatColor(){
+        if(this.getEtat() == 0)
+            return "red";
+        return "yellow";
+    }
 
     //CONSTRUCTORS
 

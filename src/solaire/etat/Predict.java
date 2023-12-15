@@ -6,6 +6,7 @@ package solaire.etat;
 
 import java.sql.Date;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import solaire.entity.BesoinSecteur;
 import solaire.entity.Meteo;
@@ -54,9 +55,9 @@ public class Predict {
         List<Meteo> meteo = new Meteo().getMeteoDu(con, this.getDatePrediction());
         for (int i = 0; i < lst.size(); i++) {
             if(lst.get(i).getIdSecteur().equals(list.get(i).getIdSecteur())){
-                int[] pointage = new int[2];
-                pointage[0] = lst.get(i).getNombrePersonneMatin();
-                pointage[1] = lst.get(i).getNombrePersonneApresMidi();
+                List<Integer> pointage = new ArrayList<>();
+                pointage.add(lst.get(i).getNombrePersonneMatin());
+                pointage.add(lst.get(i).getNombrePersonneApresMidi());
                 state[j] = list.get(i).getEtatSolaire(meteo, pas, this.getDatePrediction(), lst.get(i).getPuissanceMoyenne(), pointage);
                 j++;
             }

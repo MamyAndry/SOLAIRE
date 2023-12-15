@@ -9,7 +9,10 @@ import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import solaire.utils.DateTimeUtility;
 
 
 @Table(name = "secteur")
@@ -67,19 +70,38 @@ public class Secteur extends BddObject{
         return salle.findWhere(con);
     }
      
-    public int[] getPointageSecteur(Connection con, Date date) throws Exception{
-        int[] res = new int[2];
+    public List<Integer> getPointageSecteur(Connection con, Date date) throws Exception{
+        List<Integer> res = new ArrayList<>();
         String query = "SELECT * FROM v_pointage_secteur WHERE daty = '" + date.toString() + "' AND id_secteur LIKE '" + this.getIdSecteur() + "'";
         Statement stmt = con.createStatement();
 //        System.out.println(query);
         ResultSet rs = stmt.executeQuery(query);
-        int i = 0;
         while(rs.next()){
-            res[i] = rs.getInt("nombre_personne");
-            i++;
+            res.add(rs.getInt("nombre_personne"));
         }
         return res;
     }
     
-
+    public List<BesoinSecteur> getPointageMoyenParSecteur(Connection con, Date date) throws Exception {
+        List<BesoinSecteur> res = new ArrayList<>();
+//        HashMap<String, Double> needs = this.getBesoinMoyenne(con, date);
+        int dow = DateTimeUtility.getDayNumberOld(date) - 1;
+        String query = "SELECT heure_debut, heure_fin,AVG(nombre_personne) nombre, id_secteur "
+            + " FROM v_pointage_secteur WHERE EXTRACT(DOW FROM daty) = " 
+            + dow + " AND daty <> '" + date.toString() + "'"
+            + " GROUP BY id_secteur, heure_debut, heure_fin ORDER BY id_secteur";
+//        System.out.println(query);
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        
+        while(rs.next()){
+//            BesoinSecteur temp = new BesoinSecteur();
+//            temp.setNombrePersonneMatin(rs.getInt(1));
+//            temp.setNombrePersonneApresMidi(rs.getInt(2));
+//            temp.setIdSecteur(rs.getString(3));
+////            temp.setPuissanceMoyenne(needs.get(temp.getIdSecteur()));
+//            res.add(temp);
+        }
+        return res;
+    }
 }

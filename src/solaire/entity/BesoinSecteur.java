@@ -109,7 +109,7 @@ public class BesoinSecteur{
 //METHODS
     public HashMap<String, Double> getBesoinMoyenne(Connection con,Date date) throws Exception{
         HashMap<String, Double> res = new HashMap<>();
-        String query = "SELECT id_secteur, AVG(puissance_moyenne) besoin FROM besoin_secteur WHERE daty <> '"
+        String query = "SELECT id_secteur, AVG(puissance_moyenne) besoin FROM besoin_secteur WHERE daty < '"
                 + date.toString() + 
                 "' GROUP BY id_secteur ORDER BY id_secteur";
         Statement stmt = con.createStatement();
@@ -125,7 +125,7 @@ public class BesoinSecteur{
         int dow = DateTimeUtility.getDayNumberOld(date) - 1;
         String query = "SELECT AVG(nombre_personne_matin) nombre_matin, AVG(nombre_personne_apres_midi) nombre_apres_midi, id_secteur "
             + "FROM Besoin_secteur WHERE EXTRACT(DOW FROM daty) = " 
-            + dow + " AND daty <> '" + date.toString() + "'"
+            + dow + " AND daty < '" + date.toString() + "'"
             + " GROUP BY id_secteur ORDER BY id_secteur";
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery(query);
