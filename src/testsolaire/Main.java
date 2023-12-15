@@ -84,9 +84,9 @@ public class Main {
 //                        + " date = " + etat1.getBesoin().getDaty()
 //                        + " heure = " + etat1.getBesoin().getHeureCoupure()
 //                );
-                System.out.println(ObjectUtility.formatNumber(etat1.getBesoin().getPuissanceMoyenne(), 2, "."));
-//                GenericDao.save(con, etat1.getBesoin());
-//                System.out.println("Saved succesfully");
+//                System.out.println(ObjectUtility.formatNumber(etat1.getBesoin().getPuissanceMoyenne(), 2, "."));
+                GenericDao.save(con, etat1.getBesoin());
+                System.out.println("Saved succesfully");
 //                System.out.println("----------------------------------------------------------------------------------");
             } 
             System.out.println("SECTEUR 1 FINISHED");
