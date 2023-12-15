@@ -13,3 +13,5 @@ CREATE VIEW v_besoin_secteur_moyenne AS
 SELECT * from salle b 
             JOIN secteur s 
                 ON b.id_secteur = s.id_secteur;
+
+SELECT * FROM crosstab('SELECT id_salle, daty, heure_fin FROM pointage ') AS ct (id_salle VARCHAR(50), daty DATE, heure_fin TIME);

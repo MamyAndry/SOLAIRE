@@ -107,9 +107,11 @@ public class BesoinSecteur{
     }
     
 //METHODS
-    public HashMap<String, Double> getBesoinMoyenne(Connection con) throws Exception{
+    public HashMap<String, Double> getBesoinMoyenne(Connection con,Date date) throws Exception{
         HashMap<String, Double> res = new HashMap<>();
-        String query = "SELECT id_secteur, AVG(puissance_moyenne) besoin FROM besoin_secteur GROUP BY id_secteur ORDER BY id_secteur";
+        String query = "SELECT id_secteur, AVG(puissance_moyenne) besoin FROM besoin_secteur WHERE daty < '"
+                + date.toString() + 
+                "' GROUP BY id_secteur ORDER BY id_secteur";
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery(query);
         while(rs.next()){
@@ -119,11 +121,12 @@ public class BesoinSecteur{
     }
     public List<BesoinSecteur> getBesoinSecteurMoyenneParSecteur(Connection con, Date date) throws Exception {
         List<BesoinSecteur> res = new ArrayList<>();
-        HashMap<String, Double> needs = this.getBesoinMoyenne(con);
+        HashMap<String, Double> needs = this.getBesoinMoyenne(con, date);
         int dow = DateTimeUtility.getDayNumberOld(date) - 1;
         String query = "SELECT AVG(nombre_personne_matin) nombre_matin, AVG(nombre_personne_apres_midi) nombre_apres_midi, id_secteur "
             + "FROM Besoin_secteur WHERE EXTRACT(DOW FROM daty) = " 
-            + dow + " GROUP BY id_secteur ORDER BY id_secteur";
+            + dow + " AND date < '" + date.toString() + "'"
+            + " GROUP BY id_secteur ORDER BY id_secteur";
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery(query);
         
@@ -140,7 +143,7 @@ public class BesoinSecteur{
     
     public List<BesoinSecteur> getBesoinSecteurMoyenneParSecteur2(Connection con, Date date) throws Exception {
         List<BesoinSecteur> res = new ArrayList<>();
-        HashMap<String, Double> needs = this.getBesoinMoyenne(con);
+        HashMap<String, Double> needs = this.getBesoinMoyenne(con, date);
         int dow = DateTimeUtility.getDayNumberOld(date) - 1;
         String query = "SELECT (AVG(nombre_personne_matin) + AVG(nombre_personne_apres_midi)) / 2 nombre_, id_secteur "
             + "FROM Besoin_secteur WHERE EXTRACT(DOW FROM daty) = " 
