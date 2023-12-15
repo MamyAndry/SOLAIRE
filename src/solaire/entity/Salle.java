@@ -9,7 +9,7 @@ import dao.BddObject;
 @Table(name = "salle")
 public class Salle extends BddObject{
     
-    @PrimaryKey(name = "id_salle", sequence = "seq_batiment", prefix = "SAL")
+    @PrimaryKey(name = "id_salle", sequence = "seq_batiment", prefix = "SAL", length = 6)
     String idSalle;
     @Column(name = "capacite_max")
     Integer capaciteMax;

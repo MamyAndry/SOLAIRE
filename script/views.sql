@@ -9,3 +9,7 @@
 CREATE VIEW v_besoin_secteur_moyenne AS
     SELECT AVG(nombre_personne_matin) nombre_matin, AVG(nombre_personne_apres_midi) nombre_apres_midi, AVG(puissance_moyenne) besoin, id_secteur, daty FROM besoin_secteur
          GROUP BY id_secteur,daty;
+
+SELECT * from salle b 
+            JOIN secteur s 
+                ON b.id_secteur = s.id_secteur;

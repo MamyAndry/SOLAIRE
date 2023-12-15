@@ -9,7 +9,9 @@ import dao.GenericDao;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import solaire.entity.BesoinSecteur;
+import solaire.entity.Coupure;
+import solaire.entity.SourceSolaire;
+import solaire.etat.EtatSolaire;
 import utils.ObjectUtility;
 
 /**
@@ -30,8 +32,8 @@ public class Main {
 //            source.setIdSource("SRC00001");
 //            source = source.findById(con);
 //            EtatSolaire etat = new EtatSolaire();
-//            Date date = Date.valueOf("2023-11-13");
-//
+//            Date date = Date.valueOf("2023-11-2");
+
 //            List<Meteo> meteo = new Meteo().getMeteoDu(con, date);
 //            int[] pointage = source.getSecteur(con).getPointageSecteur(con, date);
 //            EtatSolaire etat2 = source.getEtatSolaire(meteo, 1, date, 60.0, pointage);
@@ -65,26 +67,32 @@ public class Main {
 //            System.out.println("heure coupure = " + besoin.getHeureCoupure().toString());
 //            System.out.println("besoin moyenne = " + besoin.getBesoin().getPuissanceMoyenne());
            
-//            String condition1 = "id_secteur = 'SECT0001'";
-//            String condition2 = "id_secteur = 'SECT0002'";
-//            SourceSolaire src1 = (SourceSolaire)new SourceSolaire().findWhere(con, condition1).get(0);
+            String condition1 = "id_secteur = 'SEC001'";
+//            String condition2 = "id_secteur = 'SEC002'";
+            SourceSolaire src1 = (SourceSolaire)new SourceSolaire().findWhere(con, condition1).get(0);
 //            SourceSolaire src2 = (SourceSolaire)new SourceSolaire().findWhere(con, condition2).get(0);
 //
-//            List<Coupure> lstCoupure1 = new Coupure().findWhere(con, condition1);
+            List<Coupure> lstCoupure1 = new Coupure().findWhere(con, condition1);
 //            List<Coupure> lstCoupure2 = new Coupure().findWhere(con, condition2);
 //            
 //            
-////            EtatSolaire etat = src1.getEtatSolaireMoyenne(con, lstCoupure1.get(0).getDateJour(), lstCoupure1.get(0).getHeure());
-//            for (Coupure coupure : lstCoupure1) {
-//                EtatSolaire etat1 = src1.getEtatSolaireMoyenne(con, coupure.getDateJour(), coupure.getHeure());
-////                System.out.println(etat.getBesoin().getPuissanceMoyenne());
+//            EtatSolaire etat = src1.getEtatSolaireMoyenne(con, lstCoupure1.get(0).getDateJour(), lstCoupure1.get(0).getHeure());
+            for (Coupure coupure : lstCoupure1) {
+                EtatSolaire etat1 = src1.getEtatSolaireMoyenne(con, coupure.getDateJour(), coupure.getHeure());
+//                System.out.println(
+//                        "besoin moyenne = " + etat1.getBesoin().getPuissanceMoyenne()
+//                        + " date = " + etat1.getBesoin().getDaty()
+//                        + " heure = " + etat1.getBesoin().getHeureCoupure()
+//                );
+                System.out.println(ObjectUtility.formatNumber(etat1.getBesoin().getPuissanceMoyenne(), 2, "."));
 //                GenericDao.save(con, etat1.getBesoin());
 //                System.out.println("Saved succesfully");
-//            } 
-//            System.out.println("SECTEUR 1 FINISHED");
+//                System.out.println("----------------------------------------------------------------------------------");
+            } 
+            System.out.println("SECTEUR 1 FINISHED");
 //            for (Coupure coupure2 : lstCoupure2) {
 //                EtatSolaire etat2 = src2.getEtatSolaireMoyenne(con, coupure2.getDateJour(), coupure2.getHeure());
-////                System.out.println(etat.getBesoin().getPuissanceMoyenne());
+////                System.out.println(etat2.getBesoin().getPuissanceMoyenne());
 //                GenericDao.save(con, etat2.getBesoin());
 //                System.out.println("Saved succesfully");
 //            }
@@ -99,22 +107,25 @@ public class Main {
 //            }
 
 //            Secteur sect = new Secteur();
-//            sect.setIdSecteur("SECT0001");
+//            sect.setIdSecteur("SEC001");
+//            sect = sect.findById(con);
+//            int[] pointage = sect.getPointageSecteur(con, date);
+//            System.out.println(pointage[0] + " " + pointage[1]);
 //            List<Salle> listSalle = GenericDao.findAll(con, new Salle());
 //            System.out.println(listSalle.get(0).getNom());
 //            List<Meteo> listMeteo = GenericDao.findAll(con, new Meteo());
 //            System.out.println(listMeteo.get(0).getLuminosite());
 
-            List<BesoinSecteur> lstBesoin = GenericDao.findAll(con, new BesoinSecteur());
-            for (BesoinSecteur besoinSecteur : lstBesoin) {
-                System.out.println(
-                        ObjectUtility.formatNumber(besoinSecteur.getPuissanceMoyenne(), 2, ".")
+//            List<BesoinSecteur> lstBesoin = GenericDao.findAll(con, new BesoinSecteur());
+//            for (BesoinSecteur besoinSecteur : lstBesoin) {
+//                System.out.println(
+//                        ObjectUtility.formatNumber(besoinSecteur.getPuissanceMoyenne(), 2, ".")
 //                        + " date = " + besoinSecteur.getDaty()
 //                        + " heure coupure = " + besoinSecteur.getHeureCoupure()
-//                        + " secteur = " + besoinSecteur.getIdSecteur()
-                        
-                );
-            }
+//                        + " secteur = " + besoinSecteur.getIdSecteur()                        
+//                );
+//            }
+//              System.out.println(DateTimeUtility.getDayOfWeek(Date.valueOf("2023-10-04")));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

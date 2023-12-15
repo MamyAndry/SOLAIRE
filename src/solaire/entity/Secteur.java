@@ -14,7 +14,7 @@ import java.util.List;
 
 @Table(name = "secteur")
 public class Secteur extends BddObject{
-    @PrimaryKey(name = "id_secteur", sequence = "seq_secteur", prefix = "SECT")
+    @PrimaryKey(name = "id_secteur", sequence = "seq_secteur", prefix = "SEC", length = 6)
     String idSecteur;
     @Column(name = "nom")
     String nom;
@@ -71,6 +71,7 @@ public class Secteur extends BddObject{
         int[] res = new int[2];
         String query = "SELECT * FROM v_pointage_secteur WHERE daty = '" + date.toString() + "' AND id_secteur LIKE '" + this.getIdSecteur() + "'";
         Statement stmt = con.createStatement();
+//        System.out.println(query);
         ResultSet rs = stmt.executeQuery(query);
         int i = 0;
         while(rs.next()){
