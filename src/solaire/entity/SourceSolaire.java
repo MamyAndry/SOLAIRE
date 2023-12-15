@@ -130,7 +130,7 @@ public class SourceSolaire extends BddObject{
             genere = this.getPuissanceDelivreeMomentT(meteo, time, pas);
 //            if(time.after(Time.valueOf("11:59:00")) && time.before(Time.valueOf("13:00:00")))
 //                time = Time.valueOf("13:00:00");
-            if(time.after(Time.valueOf("11:59:00")) && time.before(Time.valueOf("14:00:00")))
+            if(time.after(Time.valueOf("12:00:00")) && time.before(Time.valueOf("14:00:00")))
                 time = Time.valueOf("14:00:00");
             if(time.after(Time.valueOf("12:01:00"))){
                 besoin = besoinMoyenne * pointage[1] * duration;
